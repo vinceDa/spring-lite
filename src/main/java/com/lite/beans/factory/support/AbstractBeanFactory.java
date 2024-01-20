@@ -1,6 +1,5 @@
 package com.lite.beans.factory.support;
 
-import com.lite.beans.factory.BeanFactory;
 import com.lite.beans.factory.BeansException;
 import com.lite.beans.factory.config.BeanDefinition;
 

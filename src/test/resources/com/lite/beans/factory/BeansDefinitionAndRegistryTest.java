@@ -16,13 +16,6 @@ public class BeansDefinitionAndRegistryTest {
         factory.registerBeanDefinition("hello", beanDefinition);
 
         HelloService helloService = (HelloService) factory.getBean("hello");
-    }
-
-
-    class HelloService {
-        public String sayHello() {
-            System.out.println("hello world");
-            return "hello";
-        }
+        helloService.sayHello();
     }
 }
