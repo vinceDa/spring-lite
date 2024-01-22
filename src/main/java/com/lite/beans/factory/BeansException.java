@@ -1,16 +1,15 @@
 package com.lite.beans.factory;
 
 /**
- * @author vince 2024/1/20 20:25
+ * @author vince 2024/1/21 08:35
  */
-public class BeansException extends RuntimeException{
+public class BeansException extends RuntimeException {
 
-    public BeansException(String msg) {
-        super(msg);
+    public BeansException(String message) {
+        super(message);
     }
 
-    public BeansException(String msg, Throwable cause) {
-        super(msg, cause);
+    public BeansException(String message, Throwable cause) {
+        super(message, cause);
     }
-
 }

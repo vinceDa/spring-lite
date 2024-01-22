@@ -4,18 +4,19 @@ import com.lite.beans.factory.BeansException;
 import com.lite.beans.factory.config.BeanDefinition;
 
 /**
- * @author vince 2024/1/20 20:29
+ * @author vince 2024/1/22 14:20
  */
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory {
 
     @Override
-    public Object getBean(String name) throws BeansException {
-        Object bean = getSingletonBean(name);
-        if (bean != null) {
+    public Object getBean(String beanName) throws BeansException {
+        Object bean = getSingletonBean(beanName);
+        if (null != bean) {
             return bean;
         }
 
-        return createBean(name, getBeanDefinition(name));
+        BeanDefinition beanDefinition = getBeanDefinition(beanName);
+        return createBean(beanName, beanDefinition);
     }
 
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException;

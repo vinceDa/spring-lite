@@ -7,22 +7,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author vince 2024/1/20 18:50
+ * @author vince 2024/1/22 14:33
  */
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry {
 
     private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
 
     @Override
-    public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
-        beanDefinitionMap.put(beanName, beanDefinition);
+    public BeanDefinition registerBeanDefinition(String beanName, BeanDefinition beanDefinition) throws BeansException {
+        return beanDefinitionMap.put(beanName, beanDefinition);
     }
 
     @Override
     protected BeanDefinition getBeanDefinition(String beanName) throws BeansException {
         BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
-        if (beanDefinition == null) {
-            throw new BeansException("No bean named '" + beanName + "' is defined");
+        if (null == beanDefinition) {
+            throw new BeansException("beanDefinition named '" + beanName + "' is not defined");
         }
         return beanDefinition;
     }

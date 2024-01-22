@@ -4,7 +4,7 @@ import com.lite.beans.factory.BeansException;
 import com.lite.beans.factory.config.BeanDefinition;
 
 /**
- * @author vince 2024/1/20 20:37
+ * @author vince 2024/1/22 14:30
  */
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
 
@@ -14,15 +14,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     protected Object doCreateBean(String beanName, BeanDefinition beanDefinition) {
-        Class beanClass = beanDefinition.getBeanClass();
-        Object bean = null;
-        try {
-            bean = beanClass.newInstance();
-        } catch (Exception e) {
-            throw new BeansException("bean init failed", e);
+        Object bean = getSingletonBean(beanName);
+        if (null == bean) {
+            try {
+                Class beanClass = beanDefinition.getBeanClass();
+                bean = beanClass.newInstance();
+            } catch (Exception e) {
+                throw new BeansException("create bean named '" + beanName + "' error");
+            }
         }
-
-        addBean(beanName, bean);
+        addSingletonBean(beanName, bean);
         return bean;
     }
+
 }
