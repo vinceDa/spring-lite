@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author vince 2024/1/20 20:47
  */
-public class BeansDefinitionAndRegistryTest {
+public class BeanInstantiateStrategyTest {
 
     @Test
     public void testBeanFactory() {
