@@ -1,6 +1,6 @@
 package com.lite.beans.factory.support;
 
-import com.lite.beans.factory.BeansException;
+import com.lite.beans.BeansException;
 import com.lite.beans.factory.config.BeanDefinition;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;

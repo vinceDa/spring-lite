@@ -1,4 +1,4 @@
-package com.lite.beans.factory;
+package com.lite.beans;
 
 /**
  * @author vince 2024/1/21 08:35
