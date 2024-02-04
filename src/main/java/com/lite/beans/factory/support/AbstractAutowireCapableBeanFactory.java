@@ -1,7 +1,7 @@
 package com.lite.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.lite.beans.factory.BeansException;
+import com.lite.beans.BeansException;
 import com.lite.beans.factory.PropertyValue;
 import com.lite.beans.factory.PropertyValues;
 import com.lite.beans.factory.config.BeanDefinition;
