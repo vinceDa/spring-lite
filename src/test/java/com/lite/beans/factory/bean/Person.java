@@ -11,6 +11,8 @@ public class Person {
 
     private String sex;
 
+    private Car car;
+
     public String getName() {
         return name;
     }
@@ -33,5 +35,23 @@ public class Person {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", sex='" + sex + '\'' +
+                ", car=" + car +
+                '}';
     }
 }

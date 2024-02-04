@@ -5,6 +5,7 @@ import com.lite.beans.factory.BeansException;
 import com.lite.beans.factory.PropertyValue;
 import com.lite.beans.factory.PropertyValues;
 import com.lite.beans.factory.config.BeanDefinition;
+import com.lite.beans.factory.config.BeanReference;
 
 /**
  * @author vince 2024/1/22 14:30
@@ -45,6 +46,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             for (PropertyValue propertyValue : propertyValues.getPropertyValues()) {
                 String name = propertyValue.getName();
                 Object value = propertyValue.getValue();
+
+
+                if (value instanceof BeanReference) {
+                    // beanA依赖beanB，先实例化beanB
+                    BeanReference beanReference = (BeanReference) value;
+                    value = getBean(beanReference.getBeanName());
+                }
 
                 //通过反射设置属性
                 BeanUtil.setFieldValue(bean, name, value);
