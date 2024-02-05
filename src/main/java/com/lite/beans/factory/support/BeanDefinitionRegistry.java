@@ -10,4 +10,6 @@ public interface BeanDefinitionRegistry {
 
     BeanDefinition registerBeanDefinition(String beanName, BeanDefinition beanDefinition) throws BeansException;
 
+    boolean containsBeanDefinition(String beanName);
+
 }
