@@ -1,7 +1,6 @@
 package com.lite.beans.factory.support;
 
 import com.lite.beans.BeansException;
-import com.lite.beans.factory.config.BeanDefinition;
 import com.lite.core.io.Resource;
 import com.lite.core.io.ResourceLoader;
 

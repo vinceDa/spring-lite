@@ -7,9 +7,6 @@ import com.lite.beans.factory.config.BeanReference;
 import com.lite.beans.factory.support.DefaultListableBeanFactory;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author vince 2024/1/20 20:47
  */

@@ -1,6 +1,5 @@
 package com.lite.beans.factory.xml;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
 import com.lite.beans.BeansException;
@@ -10,6 +9,7 @@ import com.lite.beans.factory.config.BeanReference;
 import com.lite.beans.factory.support.AbstractBeanDefinitionReader;
 import com.lite.beans.factory.support.BeanDefinitionRegistry;
 import com.lite.core.io.Resource;
+import com.lite.core.io.ResourceLoader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -40,6 +40,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
         super(registry);
+    }
+
+    public XmlBeanDefinitionReader(BeanDefinitionRegistry registry, ResourceLoader resourceLoader) {
+        super(registry, resourceLoader);
     }
 
     @Override
