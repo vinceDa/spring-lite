@@ -1,11 +1,8 @@
 package com.lite.beans.factory;
 
-import com.lite.beans.context.ApplicationContext;
 import com.lite.beans.context.support.ClassPathXmlApplicationContext;
 import com.lite.beans.factory.bean.Car;
 import com.lite.beans.factory.bean.Person;
-import com.lite.beans.factory.support.DefaultListableBeanFactory;
-import com.lite.beans.factory.xml.XmlBeanDefinitionReader;
 import org.junit.jupiter.api.Test;
 
 /**
