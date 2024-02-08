@@ -1,7 +1,7 @@
-package com.lite.beans.context.support;
+package com.lite.context.support;
 
 import com.lite.beans.BeansException;
-import com.lite.beans.context.ConfigurableApplicationContext;
+import com.lite.context.ConfigurableApplicationContext;
 import com.lite.beans.factory.ConfigurableListableBeanFactory;
 import com.lite.beans.factory.config.BeanFactoryPostProcessor;
 import com.lite.beans.factory.config.BeanPostProcessor;

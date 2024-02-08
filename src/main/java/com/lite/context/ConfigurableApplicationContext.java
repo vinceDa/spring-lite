@@ -1,4 +1,4 @@
-package com.lite.beans.context;
+package com.lite.context;
 
 import com.lite.beans.BeansException;
 

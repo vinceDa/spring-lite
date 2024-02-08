@@ -1,4 +1,4 @@
-package com.lite.beans.context.support;
+package com.lite.context.support;
 
 import com.lite.beans.BeansException;
 import com.lite.beans.factory.support.DefaultListableBeanFactory;

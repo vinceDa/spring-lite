@@ -1,8 +1,6 @@
-package com.lite.beans.context.support;
+package com.lite.context.support;
 
 import com.lite.beans.BeansException;
-
-import java.util.Map;
 
 /**
  * @author vince 2024/2/6 17:59
