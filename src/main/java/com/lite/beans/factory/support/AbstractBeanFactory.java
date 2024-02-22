@@ -27,12 +27,19 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     }
 
     @Override
+    public <T> T getBean(String beanName, Class<T> requiredType) throws BeansException {
+        return (T) getBean(beanName);
+    }
+
+    @Override
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
+        // 有则覆盖
+        beanPostProcessors.remove(beanPostProcessor);
         beanPostProcessors.add(beanPostProcessor);
     }
 
     public List<BeanPostProcessor> getBeanPostProcessors() {
-        return beanPostProcessors;
+        return this.beanPostProcessors;
     }
 
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException;

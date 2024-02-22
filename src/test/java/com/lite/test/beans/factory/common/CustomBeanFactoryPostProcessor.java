@@ -1,11 +1,11 @@
-package com.lite.beans.factory.common;
+package com.lite.test.beans.factory.common;
 
 import com.lite.beans.BeansException;
 import com.lite.beans.factory.ConfigurableListableBeanFactory;
+import com.lite.beans.factory.config.BeanFactoryPostProcessor;
 import com.lite.beans.factory.PropertyValue;
 import com.lite.beans.factory.PropertyValues;
 import com.lite.beans.factory.config.BeanDefinition;
-import com.lite.beans.factory.config.BeanFactoryPostProcessor;
 
 /**
  * @author vince 2024/2/6 12:06

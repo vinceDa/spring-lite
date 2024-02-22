@@ -1,9 +1,13 @@
-package com.lite.beans.factory.bean;
+package com.lite.test.beans.factory.bean;
+
+import com.lite.beans.BeansException;
+import com.lite.beans.factory.DisposableBean;
+import com.lite.beans.factory.InitializingBean;
 
 /**
  * @author vince 2024/1/26 17:51
  */
-public class Person {
+public class Person implements InitializingBean, DisposableBean {
 
     private String name;
 
@@ -53,5 +57,23 @@ public class Person {
                 ", sex='" + sex + '\'' +
                 ", car=" + car +
                 '}';
+    }
+
+    public void customInitMethod() {
+        System.out.println("I was born in the method named customInitMethod");
+    }
+
+    public void customDestroyMethod() {
+        System.out.println("I died in the method named customDestroyMethod");
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("I died in the method named destroy");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws BeansException {
+        System.out.println("I was born in the method named afterPropertiesSet");
     }
 }

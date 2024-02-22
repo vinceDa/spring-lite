@@ -1,11 +1,11 @@
-package com.lite.beans.factory;
+package com.lite.test.beans.factory;
 
-import com.lite.beans.factory.bean.Car;
-import com.lite.beans.factory.bean.Person;
-import com.lite.beans.factory.common.CustomBeanFactoryPostProcessor;
-import com.lite.beans.factory.common.CustomerBeanPostProcessor;
-import com.lite.beans.factory.support.DefaultListableBeanFactory;
+import com.lite.test.beans.factory.common.CustomBeanFactoryPostProcessor;
 import com.lite.beans.factory.xml.XmlBeanDefinitionReader;
+import com.lite.test.beans.factory.bean.Car;
+import com.lite.test.beans.factory.bean.Person;
+import com.lite.test.beans.factory.common.CustomerBeanPostProcessor;
+import com.lite.beans.factory.support.DefaultListableBeanFactory;
 import org.junit.jupiter.api.Test;
 
 /**

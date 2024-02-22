@@ -3,10 +3,10 @@ package com.lite.beans.factory.xml;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
 import com.lite.beans.BeansException;
+import com.lite.beans.factory.support.AbstractBeanDefinitionReader;
 import com.lite.beans.factory.PropertyValue;
 import com.lite.beans.factory.config.BeanDefinition;
 import com.lite.beans.factory.config.BeanReference;
-import com.lite.beans.factory.support.AbstractBeanDefinitionReader;
 import com.lite.beans.factory.support.BeanDefinitionRegistry;
 import com.lite.core.io.Resource;
 import com.lite.core.io.ResourceLoader;
@@ -37,6 +37,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     private static final String REF_ATTRIBUTE = "ref";
 
     private static final String CLASS_ATTRIBUTE = "class";
+
+    private static final String INIT_METHOD_ATTRIBUTE = "init-method";
+
+    private static final String DESTROY_METHOD_ATTRIBUTE = "destroy-method";
 
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
         super(registry);
@@ -99,6 +103,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             }
 
             BeanDefinition beanDefinition = new BeanDefinition(clazz);
+
+            // 获取初始化方法和销毁方法
+            beanDefinition.setInitMethodName(bean.getAttribute(INIT_METHOD_ATTRIBUTE));
+            beanDefinition.setDestroyMethodName(bean.getAttribute(DESTROY_METHOD_ATTRIBUTE));
 
             // 解析 bean 的结构体获取 property
             NodeList beansChild = bean.getChildNodes();

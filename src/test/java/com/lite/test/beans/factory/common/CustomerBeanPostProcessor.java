@@ -1,7 +1,7 @@
-package com.lite.beans.factory.common;
+package com.lite.test.beans.factory.common;
 
 import com.lite.beans.BeansException;
-import com.lite.beans.factory.bean.Car;
+import com.lite.test.beans.factory.bean.Car;
 import com.lite.beans.factory.config.BeanPostProcessor;
 
 /**

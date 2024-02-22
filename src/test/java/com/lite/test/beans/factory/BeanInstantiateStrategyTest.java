@@ -1,7 +1,7 @@
-package com.lite.beans.factory;
+package com.lite.test.beans.factory;
 
-import com.lite.beans.factory.config.BeanDefinition;
 import com.lite.beans.factory.support.DefaultListableBeanFactory;
+import com.lite.beans.factory.config.BeanDefinition;
 import org.junit.jupiter.api.Test;
 
 /**

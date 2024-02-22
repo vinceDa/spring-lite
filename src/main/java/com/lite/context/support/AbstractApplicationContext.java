@@ -54,6 +54,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     }
 
     @Override
+    public <T> T getBean(String beanName, Class<T> requiredType) throws BeansException {
+        return this.getBeanFactory().getBean(beanName, requiredType);
+    }
+
+    @Override
     public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeansException {
         return this.getBeanFactory().getBeansOfType(type);
     }
@@ -64,4 +69,22 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     }
 
     protected abstract ConfigurableListableBeanFactory getBeanFactory();
+
+    public void close() {
+        close();
+    }
+
+    @Override
+    public void registerShutdownHook() {
+        Thread shutdownHook = new Thread(this::doClose);
+        Runtime.getRuntime().addShutdownHook(shutdownHook);
+    }
+
+    protected void doClose() {
+        destroyBeans();
+    }
+
+    protected void destroyBeans() {
+        getBeanFactory().destroySingletons();
+    }
 }

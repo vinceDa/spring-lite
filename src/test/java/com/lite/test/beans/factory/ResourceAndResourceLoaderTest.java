@@ -1,4 +1,4 @@
-package com.lite.beans.factory;
+package com.lite.test.beans.factory;
 
 import cn.hutool.core.io.IoUtil;
 import com.lite.core.io.*;

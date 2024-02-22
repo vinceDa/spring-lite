@@ -1,8 +1,8 @@
-package com.lite.beans.factory;
+package com.lite.test.beans.factory;
 
-import com.lite.beans.factory.bean.Person;
-import com.lite.beans.factory.support.DefaultListableBeanFactory;
 import com.lite.beans.factory.xml.XmlBeanDefinitionReader;
+import com.lite.test.beans.factory.bean.Person;
+import com.lite.beans.factory.support.DefaultListableBeanFactory;
 import org.junit.jupiter.api.Test;
 
 /**
