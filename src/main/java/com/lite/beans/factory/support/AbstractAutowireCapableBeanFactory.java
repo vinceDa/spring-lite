@@ -4,12 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import com.lite.beans.BeansException;
-import com.lite.beans.factory.DisposableBean;
+import com.lite.beans.factory.*;
 import com.lite.beans.factory.config.AutowireCapableBeanFactory;
 import com.lite.beans.factory.config.BeanPostProcessor;
-import com.lite.beans.factory.InitializingBean;
-import com.lite.beans.factory.PropertyValue;
-import com.lite.beans.factory.PropertyValues;
 import com.lite.beans.factory.config.BeanDefinition;
 import com.lite.beans.factory.config.BeanReference;
 
@@ -54,6 +51,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        if (bean instanceof BeanFactoryAware) {
+            ((BeanFactoryAware)bean).setBeanFactory(this);
+        }
+
         // 执行 BeanPostProcessor 的前置处理
         Object wrappedBean = applyBeanPostProcessorBeforeInitialization(bean, beanName);
 

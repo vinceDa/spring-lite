@@ -1,25 +1,26 @@
 package com.lite.beans.factory.xml;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.XmlUtil;
 import com.lite.beans.BeansException;
-import com.lite.beans.factory.support.AbstractBeanDefinitionReader;
 import com.lite.beans.factory.PropertyValue;
 import com.lite.beans.factory.config.BeanDefinition;
 import com.lite.beans.factory.config.BeanReference;
+import com.lite.beans.factory.support.AbstractBeanDefinitionReader;
 import com.lite.beans.factory.support.BeanDefinitionRegistry;
 import com.lite.core.io.Resource;
 import com.lite.core.io.ResourceLoader;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * 根据 xml 文件读取 bean 的类
+ *
  * @author vince 2024/2/5 11:30
  */
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
@@ -56,7 +57,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             try (InputStream inputStream = resource.getInputStream()) {
                 doLoadBeanDefinitions(inputStream);
             }
-        } catch (IOException ex) {
+        } catch (IOException | DocumentException ex) {
             throw new BeansException("IOException parsing XML document from" + resource, ex);
         }
     }
@@ -68,26 +69,19 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
     /**
      * 解析 xml，需要了解 document 相关的用法
+     *
      * @param inputStream
      */
-    protected void doLoadBeanDefinitions(InputStream inputStream) {
-        Document document = XmlUtil.readXML(inputStream);
-        Element root = document.getDocumentElement();
-        NodeList childNodes = root.getChildNodes();
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            Node node = childNodes.item(i);
-            if (!(node instanceof Element bean)) {
-                continue;
-            }
-
-            if (!BEAN_ELEMENT.equals(node.getNodeName())) {
-                continue;
-            }
-
+    protected void doLoadBeanDefinitions(InputStream inputStream) throws DocumentException {
+        SAXReader reader = new SAXReader();
+        Document document = reader.read(inputStream);
+        Element root = document.getRootElement();
+        List<Element> beans = root.elements(BEAN_ELEMENT);
+        for (Element bean : beans) {
             // 解析 bean 标签
-            String id = bean.getAttribute(ID_ATTRIBUTE);
-            String className = bean.getAttribute(CLASS_ATTRIBUTE);
-            String name = bean.getAttribute(NAME_ATTRIBUTE);
+            String id = bean.attributeValue(ID_ATTRIBUTE);
+            String className = bean.attributeValue(CLASS_ATTRIBUTE);
+            String name = bean.attributeValue(NAME_ATTRIBUTE);
 
             Class<?> clazz;
             try {
@@ -105,24 +99,15 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             BeanDefinition beanDefinition = new BeanDefinition(clazz);
 
             // 获取初始化方法和销毁方法
-            beanDefinition.setInitMethodName(bean.getAttribute(INIT_METHOD_ATTRIBUTE));
-            beanDefinition.setDestroyMethodName(bean.getAttribute(DESTROY_METHOD_ATTRIBUTE));
+            beanDefinition.setInitMethodName(bean.attributeValue(INIT_METHOD_ATTRIBUTE));
+            beanDefinition.setDestroyMethodName(bean.attributeValue(DESTROY_METHOD_ATTRIBUTE));
 
             // 解析 bean 的结构体获取 property
-            NodeList beansChild = bean.getChildNodes();
-            for (int j = 0; j < beansChild.getLength(); j++) {
-                Node item = beansChild.item(j);
-                if (!(item instanceof Element property)) {
-                    continue;
-                }
-
-                if (!PROPERTY_ELEMENT.equals(item.getNodeName())) {
-                    continue;
-                }
-
-                String nameAttribute = property.getAttribute(NAME_ATTRIBUTE);
-                String valueAttribute = property.getAttribute(VALUE_ATTRIBUTE);
-                String refAttribute = property.getAttribute(REF_ATTRIBUTE);
+            List<Element> properties = bean.elements(PROPERTY_ELEMENT);
+            for (Element property : properties) {
+                String nameAttribute = property.attributeValue(NAME_ATTRIBUTE);
+                String valueAttribute = property.attributeValue(VALUE_ATTRIBUTE);
+                String refAttribute = property.attributeValue(REF_ATTRIBUTE);
 
                 if (StrUtil.isBlank(nameAttribute)) {
                     throw new BeansException("The name attribute cannot be null or empty");
@@ -146,5 +131,4 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             this.getRegistry().registerBeanDefinition(beanName, beanDefinition);
         }
     }
-
 }

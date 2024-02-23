@@ -15,4 +15,10 @@
     <bean id="car" class="com.lite.test.beans.factory.bean.Car">
         <property name="brand" value="奔驰"/>
     </bean>
+
+    <bean class="com.lite.test.beans.factory.common.CustomBeanFactoryPostProcessor"/>
+
+    <bean class="com.lite.test.beans.factory.common.CustomerBeanPostProcessor"/>
+
+    <bean id="helloService" class="com.lite.test.beans.factory.service.HelloService"/>
 </beans>

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 public class BeanFactoryPostProcessorAndBeanPostProcessorTest {
 
     @Test
-    public void testBeanFactoryPostProcess0r() throws Exception {
+    public void testBeanFactoryPostProcessor() throws Exception {
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
         XmlBeanDefinitionReader definitionReader = new XmlBeanDefinitionReader(beanFactory);
         definitionReader.loadBeanDefinitions("classpath:spring.xml");
