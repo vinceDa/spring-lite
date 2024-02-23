@@ -25,28 +25,32 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     protected Object doCreateBean(String beanName, BeanDefinition beanDefinition) {
-        Object bean = getSingletonBean(beanName);
-        if (null == bean) {
-            try {
-                bean = createBeaInstance(beanDefinition);
-                applyPropertyValues(beanName, bean, beanDefinition);
+        Object bean;
+        try {
+            bean = createBeaInstance(beanDefinition);
+            applyPropertyValues(beanName, bean, beanDefinition);
 
-                // 执行 bean 的初始化方法和 BeanPostProcessor 的前置和后置处理方法
-                bean = initializeBean(beanName, bean, beanDefinition);
-            } catch (Exception e) {
-                throw new BeansException("create bean named '" + beanName + "' error");
-            }
+            // 执行 bean 的初始化方法和 BeanPostProcessor 的前置和后置处理方法
+            bean = initializeBean(beanName, bean, beanDefinition);
+        } catch (Exception e) {
+            throw new BeansException("create bean named '" + beanName + "' error");
         }
 
         registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
 
-        addSingletonBean(beanName, bean);
+        if (beanDefinition.isSingleton()) {
+            addSingletonBean(beanName, bean);
+        }
+
         return bean;
     }
 
     protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
-        if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
-            registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition.getDestroyMethodName()));
+        // 只有 singleton 类型的 bean 才会执行销毁方法
+        if (beanDefinition.isSingleton()) {
+            if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+                registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition.getDestroyMethodName()));
+            }
         }
     }
 
