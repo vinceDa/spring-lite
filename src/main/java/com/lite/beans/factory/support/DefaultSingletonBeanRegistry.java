@@ -22,11 +22,13 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         return singletonBeanMap.get(beanName);
     }
 
+    @Override
+    public void addSingleton(String beanName, Object singletonObject) {
+        singletonBeanMap.put(beanName, singletonObject);
+    }
+
     public void registerDisposableBean(String beanName, DisposableBean bean) {
         disposableBeanMap.put(beanName, bean);
-    }
-    protected void addSingletonBean(String beanName, Object bean) {
-        singletonBeanMap.put(beanName, bean);
     }
 
     public void destroySingletons() {

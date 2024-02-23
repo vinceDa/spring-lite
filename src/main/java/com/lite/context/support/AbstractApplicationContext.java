@@ -1,18 +1,29 @@
 package com.lite.context.support;
 
 import com.lite.beans.BeansException;
+import com.lite.context.ApplicationEvent;
+import com.lite.context.ApplicationListener;
 import com.lite.context.ConfigurableApplicationContext;
 import com.lite.beans.factory.ConfigurableListableBeanFactory;
 import com.lite.beans.factory.config.BeanFactoryPostProcessor;
 import com.lite.beans.factory.config.BeanPostProcessor;
+import com.lite.context.event.ApplicationEventMulticaster;
+import com.lite.context.event.ContextCloseEvent;
+import com.lite.context.event.ContextRefreshEvent;
+import com.lite.context.event.SimpleApplicationEventMulticaster;
 import com.lite.core.io.DefaultResourceLoader;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
  * @author vince 2024/2/6 16:51
  */
 public abstract class AbstractApplicationContext extends DefaultResourceLoader implements ConfigurableApplicationContext {
+
+    public static final String APPLICATION_EVENT_MULTICASTER_BEAN_NAME = "applicationEventMulticaster";
+
+    private ApplicationEventMulticaster applicationEventMulticaster;
 
     @Override
     public void refresh() throws BeansException {
@@ -25,10 +36,21 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 
         // 在 bean 实例化前执行 BeanFactoryPostProcessor
         invokeBeanFactoryPostProcessor(beanFactory);
+
         // BeanPostProcessor 需要在其他 bean 实例化前注册
         registerBeanPostProcessors(beanFactory);
+
+        // 初始化事件发布者
+        initApplicationEventMulticaster();
+
+        // 注册事件监听器
+        registerApplicationListener();
+
         // 提前实例化单例 bean
         beanFactory.preInstantiateSingletons();
+
+        // 发布容器刷新完成事件
+        finishRefresh();
     }
 
     /**
@@ -47,6 +69,34 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         for (BeanPostProcessor beanPostProcessor : beanPostProcessorOfType.values()) {
             beanFactory.addBeanPostProcessor(beanPostProcessor);
         }
+    }
+
+    /**
+     * 初始化事件发布者
+     */
+    protected void initApplicationEventMulticaster() {
+        ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+        applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
+        beanFactory.addSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, applicationEventMulticaster);
+    }
+
+    /**
+     * 注册事件监听器
+     */
+    protected void registerApplicationListener() {
+        Collection<ApplicationListener> applicationListeners = getBeansOfType(ApplicationListener.class).values();
+        for (ApplicationListener applicationListener : applicationListeners) {
+            applicationEventMulticaster.addApplicationListener(applicationListener);
+        }
+    }
+
+    protected void finishRefresh() {
+        publishEvent(new ContextRefreshEvent(this));
+    }
+
+    @Override
+    public void publishEvent(ApplicationEvent event) {
+        applicationEventMulticaster.multicastEvent(event);
     }
 
     protected abstract void refreshBeanFactory() throws BeansException;
@@ -84,6 +134,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     }
 
     protected void doClose() {
+        publishEvent(new ContextCloseEvent(this));
+
         destroyBeans();
     }
 

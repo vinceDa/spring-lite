@@ -9,4 +9,6 @@ public interface SingletonBeanRegistry {
 
     Object getSingletonBean(String beanName) throws BeansException;
 
+    void addSingleton(String beanName, Object singletonObject);
+
 }
