@@ -7,6 +7,8 @@ import com.lite.aop.aspectj.AspectjExpressionPointcut;
 import com.lite.aop.framework.CglibAopProxy;
 import com.lite.aop.framework.JdkDynamicAopProxy;
 import com.lite.aop.framework.ProxyFactory;
+import com.lite.aop.framework.adapter.MethodBeforeAdviceInterceptor;
+import com.lite.test.common.WorldServiceBeforeAdvice;
 import com.lite.test.common.WorldServiceInterceptor;
 import com.lite.test.service.WorldService;
 import com.lite.test.service.WorldServiceImpl;
@@ -64,6 +66,17 @@ public class DynamicProxyTest {
         // 使用 Cglib 动态代理
         advisedSupport.setProxyTargetClass(true);
         proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+        proxy.explode();
+    }
+
+    @Test
+    public void testBeforeAdvice() throws Exception {
+        // 设置 BeforeAdvice
+        WorldServiceBeforeAdvice beforeAdvice = new WorldServiceBeforeAdvice();
+        MethodBeforeAdviceInterceptor methodBeforeAdviceInterceptor = new MethodBeforeAdviceInterceptor(beforeAdvice);
+        advisedSupport.setMethodInterceptor(methodBeforeAdviceInterceptor);
+
+        WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
         proxy.explode();
     }
 
