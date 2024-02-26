@@ -2,7 +2,7 @@ package com.lite.aop.aspectj;
 
 import com.lite.aop.ClassFilter;
 import com.lite.aop.MethodMatcher;
-import com.lite.aop.PointCut;
+import com.lite.aop.Pointcut;
 import org.aspectj.weaver.tools.PointcutExpression;
 import org.aspectj.weaver.tools.PointcutParser;
 import org.aspectj.weaver.tools.PointcutPrimitive;
@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * @author vince 2024/2/26 11:37
  */
-public class AspectjExpressionPointCut implements ClassFilter, MethodMatcher, PointCut {
+public class AspectjExpressionPointcut implements ClassFilter, MethodMatcher, Pointcut {
 
     private static final Set<PointcutPrimitive> SUPPORTED_PRIMITIVES = new HashSet<>();
 
@@ -24,7 +24,7 @@ public class AspectjExpressionPointCut implements ClassFilter, MethodMatcher, Po
 
     private final PointcutExpression pointcutExpression;
 
-    public AspectjExpressionPointCut(String pointcutExpression) {
+    public AspectjExpressionPointcut(String pointcutExpression) {
         PointcutParser pointcutParser = PointcutParser.getPointcutParserSupportingSpecifiedPrimitivesAndUsingSpecifiedClassLoaderForResolution(
                 SUPPORTED_PRIMITIVES, this.getClass().getClassLoader()
         );
@@ -37,7 +37,7 @@ public class AspectjExpressionPointCut implements ClassFilter, MethodMatcher, Po
     }
 
     @Override
-    public boolean matchers(Method method, Class<?> targetClass) {
+    public boolean matches(Method method, Class<?> targetClass) {
         return pointcutExpression.matchesMethodExecution(method).alwaysMatches();
     }
 

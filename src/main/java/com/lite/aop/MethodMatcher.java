@@ -7,6 +7,6 @@ import java.lang.reflect.Method;
  */
 public interface MethodMatcher {
 
-    boolean matchers(Method method, Class<?> targetClass);
+    boolean matches(Method method, Class<?> targetClass);
 
 }

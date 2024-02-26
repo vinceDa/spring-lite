@@ -1,4 +1,4 @@
-package com.lite.test.event;
+package com.lite.test.common.event;
 
 import com.lite.context.ApplicationEvent;
 import com.lite.context.ApplicationListener;
