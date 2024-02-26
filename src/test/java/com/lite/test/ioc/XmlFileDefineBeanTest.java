@@ -1,7 +1,7 @@
-package com.lite.test.beans.factory;
+package com.lite.test.ioc;
 
 import com.lite.beans.factory.xml.XmlBeanDefinitionReader;
-import com.lite.test.beans.factory.bean.Person;
+import com.lite.test.bean.Person;
 import com.lite.beans.factory.support.DefaultListableBeanFactory;
 import org.junit.jupiter.api.Test;
 

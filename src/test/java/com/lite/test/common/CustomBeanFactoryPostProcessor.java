@@ -1,4 +1,4 @@
-package com.lite.test.beans.factory.common;
+package com.lite.test.common;
 
 import com.lite.beans.BeansException;
 import com.lite.beans.factory.ConfigurableListableBeanFactory;

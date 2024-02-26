@@ -1,4 +1,4 @@
-package com.lite.test.beans.factory.service;
+package com.lite.test.service;
 
 import com.lite.beans.BeansException;
 import com.lite.beans.factory.BeanFactory;

@@ -1,7 +1,7 @@
-package com.lite.test.beans.factory.common;
+package com.lite.test.common;
 
 import com.lite.beans.factory.FactoryBean;
-import com.lite.test.beans.factory.bean.Car;
+import com.lite.test.bean.Car;
 
 /**
  * @author vince 2024/2/23 16:53

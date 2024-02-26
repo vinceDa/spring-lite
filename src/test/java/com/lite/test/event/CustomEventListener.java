@@ -1,4 +1,4 @@
-package com.lite.test.beans.factory.event;
+package com.lite.test.event;
 
 import com.lite.context.ApplicationEvent;
 import com.lite.context.ApplicationListener;

@@ -1,8 +1,8 @@
-package com.lite.test.beans.factory;
+package com.lite.test.ioc;
 
 import com.lite.context.support.ClassPathXmlApplicationContext;
 import org.junit.jupiter.api.Test;
-import com.lite.test.beans.factory.service.HelloService;
+import com.lite.test.service.HelloService;
 
 import java.util.Objects;
 

@@ -1,10 +1,10 @@
-package com.lite.test.beans.factory;
+package com.lite.test.ioc;
 
-import com.lite.test.beans.factory.common.CustomBeanFactoryPostProcessor;
+import com.lite.test.bean.Person;
+import com.lite.test.common.CustomBeanFactoryPostProcessor;
 import com.lite.beans.factory.xml.XmlBeanDefinitionReader;
-import com.lite.test.beans.factory.bean.Car;
-import com.lite.test.beans.factory.bean.Person;
-import com.lite.test.beans.factory.common.CustomerBeanPostProcessor;
+import com.lite.test.bean.Car;
+import com.lite.test.common.CustomerBeanPostProcessor;
 import com.lite.beans.factory.support.DefaultListableBeanFactory;
 import org.junit.jupiter.api.Test;
 

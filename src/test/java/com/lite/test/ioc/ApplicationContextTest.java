@@ -1,7 +1,7 @@
-package com.lite.test.beans.factory;
+package com.lite.test.ioc;
 
-import com.lite.test.beans.factory.bean.Car;
-import com.lite.test.beans.factory.bean.Person;
+import com.lite.test.bean.Car;
+import com.lite.test.bean.Person;
 import com.lite.context.support.ClassPathXmlApplicationContext;
 import org.junit.jupiter.api.Test;
 

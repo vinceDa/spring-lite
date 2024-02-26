@@ -1,11 +1,11 @@
-package com.lite.test.beans.factory;
+package com.lite.test.ioc;
 
 import com.lite.beans.factory.PropertyValue;
 import com.lite.beans.factory.PropertyValues;
 import com.lite.beans.factory.config.BeanDefinition;
 import com.lite.beans.factory.support.DefaultListableBeanFactory;
-import com.lite.test.beans.factory.bean.Car;
-import com.lite.test.beans.factory.bean.Person;
+import com.lite.test.bean.Car;
+import com.lite.test.bean.Person;
 import com.lite.beans.factory.config.BeanReference;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,7 @@
-package com.lite.test.beans.factory;
+package com.lite.test.ioc;
 
 import com.lite.context.support.ClassPathXmlApplicationContext;
-import com.lite.test.beans.factory.event.CustomEvent;
+import com.lite.test.event.CustomEvent;
 import org.junit.jupiter.api.Test;
 
 /**

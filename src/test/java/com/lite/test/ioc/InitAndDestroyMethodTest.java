@@ -1,4 +1,4 @@
-package com.lite.test.beans.factory;
+package com.lite.test.ioc;
 
 import com.lite.context.support.ClassPathXmlApplicationContext;
 import org.junit.jupiter.api.Test;

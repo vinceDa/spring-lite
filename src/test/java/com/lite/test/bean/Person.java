@@ -1,4 +1,4 @@
-package com.lite.test.beans.factory.bean;
+package com.lite.test.bean;
 
 import com.lite.beans.BeansException;
 import com.lite.beans.factory.DisposableBean;

@@ -1,8 +1,8 @@
-package com.lite.test.beans.factory;
+package com.lite.test.ioc;
 
 import com.lite.beans.factory.support.DefaultListableBeanFactory;
 import com.lite.beans.factory.config.BeanDefinition;
-import com.lite.test.beans.factory.service.HelloService;
+import com.lite.test.service.HelloService;
 import org.junit.jupiter.api.Test;
 
 /**
