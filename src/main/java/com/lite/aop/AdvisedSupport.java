@@ -13,6 +13,19 @@ public class AdvisedSupport {
 
     private MethodMatcher methodMatcher;
 
+    /**
+     * 是否使用 cglib 代理
+     */
+    private boolean proxyTargetClass = false;
+
+    public boolean isProxyTargetClass() {
+        return proxyTargetClass;
+    }
+
+    public void setProxyTargetClass(boolean proxyTargetClass) {
+        this.proxyTargetClass = proxyTargetClass;
+    }
+
     public TargetSource getTargetSource() {
         return targetSource;
     }

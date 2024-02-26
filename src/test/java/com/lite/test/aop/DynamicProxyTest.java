@@ -6,6 +6,7 @@ import com.lite.aop.TargetSource;
 import com.lite.aop.aspectj.AspectjExpressionPointcut;
 import com.lite.aop.framework.CglibAopProxy;
 import com.lite.aop.framework.JdkDynamicAopProxy;
+import com.lite.aop.framework.ProxyFactory;
 import com.lite.test.common.WorldServiceInterceptor;
 import com.lite.test.service.WorldService;
 import com.lite.test.service.WorldServiceImpl;
@@ -50,6 +51,19 @@ public class DynamicProxyTest {
     @Test
     public void testCglibDynamicProxy() throws Exception {
         WorldService proxy = (WorldService) new CglibAopProxy(advisedSupport).getProxy();
+        proxy.explode();
+    }
+
+    @Test
+    public void testProxyFactory() throws Exception {
+        // 使用 JDK 动态代理
+        advisedSupport.setProxyTargetClass(false);
+        WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+        proxy.explode();
+
+        // 使用 Cglib 动态代理
+        advisedSupport.setProxyTargetClass(true);
+        proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
         proxy.explode();
     }
 
