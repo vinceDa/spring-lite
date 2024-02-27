@@ -1,8 +1,10 @@
 package com.lite.test.aop;
 
 import com.lite.aop.AdvisedSupport;
+import com.lite.aop.ClassFilter;
 import com.lite.aop.MethodMatcher;
 import com.lite.aop.TargetSource;
+import com.lite.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import com.lite.aop.aspectj.AspectjExpressionPointcut;
 import com.lite.aop.framework.CglibAopProxy;
 import com.lite.aop.framework.JdkDynamicAopProxy;
@@ -12,6 +14,7 @@ import com.lite.test.common.WorldServiceBeforeAdvice;
 import com.lite.test.common.WorldServiceInterceptor;
 import com.lite.test.service.WorldService;
 import com.lite.test.service.WorldServiceImpl;
+import org.aopalliance.intercept.MethodInterceptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -78,6 +81,31 @@ public class DynamicProxyTest {
 
         WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
         proxy.explode();
+    }
+
+    @Test
+    public void testAdvisor() throws Exception {
+        WorldService worldService = new WorldServiceImpl();
+
+        // Advisor是 Pointcut 和 advice 的结合
+        String expression = "execution(* com.lite.test.service.WorldService.explode(..))";
+        AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
+        advisor.setExpression(expression);
+        MethodBeforeAdviceInterceptor methodBeforeAdviceInterceptor = new MethodBeforeAdviceInterceptor(new WorldServiceBeforeAdvice());
+        advisor.setAdvice(methodBeforeAdviceInterceptor);
+
+        ClassFilter classFilter = advisor.getPointcut().getClassFilter();
+        if (classFilter.matches(worldService.getClass())) {
+            AdvisedSupport advisedSupport = new AdvisedSupport();
+
+            TargetSource targetSource = new TargetSource(worldService);
+            advisedSupport.setTargetSource(targetSource);
+            advisedSupport.setMethodInterceptor((MethodInterceptor) advisor.getAdvice());
+            advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
+
+            WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+            proxy.explode();
+        }
     }
 
 }
