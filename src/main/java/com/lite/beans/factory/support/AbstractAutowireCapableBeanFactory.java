@@ -5,10 +5,7 @@ import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import com.lite.beans.BeansException;
 import com.lite.beans.factory.*;
-import com.lite.beans.factory.config.AutowireCapableBeanFactory;
-import com.lite.beans.factory.config.BeanPostProcessor;
-import com.lite.beans.factory.config.BeanDefinition;
-import com.lite.beans.factory.config.BeanReference;
+import com.lite.beans.factory.config.*;
 
 import java.lang.reflect.Method;
 
@@ -21,7 +18,33 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     @Override
     protected Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException {
+        // 如果 bean 需要代理
+        Object bean = resolveBeforeInstantiation(beanName, beanDefinition);
+        if (bean != null) {
+            return bean;
+        }
+
         return doCreateBean(beanName, beanDefinition);
+    }
+
+    protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
+        Object bean = applyBeanPostProcessorBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
+        if (bean != null) {
+            bean = applyBeanPostProcessorAfterInitialization(bean, beanName);
+        }
+        return bean;
+    }
+
+    protected Object applyBeanPostProcessorBeforeInstantiation(Class beanClass, String beanName) {
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor instantiationAwareBeanPostProcessor) {
+                Object result = instantiationAwareBeanPostProcessor.postProcessBeforeInstantiation(beanClass, beanName);
+                if (result != null) {
+                    return result;
+                }
+            }
+        }
+        return null;
     }
 
     protected Object doCreateBean(String beanName, BeanDefinition beanDefinition) {
@@ -148,7 +171,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         return getInstantiationStrategy().instantiate(beanDefinition);
     }
 
-    protected InstantiationStrategy getInstantiationStrategy() {
+    public InstantiationStrategy getInstantiationStrategy() {
         return simpleInstantiationStrategy;
     }
 
