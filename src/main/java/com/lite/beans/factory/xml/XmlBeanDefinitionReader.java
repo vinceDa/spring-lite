@@ -7,6 +7,7 @@ import com.lite.beans.factory.config.BeanDefinition;
 import com.lite.beans.factory.config.BeanReference;
 import com.lite.beans.factory.support.AbstractBeanDefinitionReader;
 import com.lite.beans.factory.support.BeanDefinitionRegistry;
+import com.lite.context.annotation.ClassPathBeanDefinitionScanner;
 import com.lite.core.io.Resource;
 import com.lite.core.io.ResourceLoader;
 import org.dom4j.Document;
@@ -17,6 +18,7 @@ import org.dom4j.io.SAXReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 根据 xml 文件读取 bean 的类
@@ -28,6 +30,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     private static final String BEAN_ELEMENT = "bean";
 
     private static final String PROPERTY_ELEMENT = "property";
+
+    private static final String COMPONENT_SCAN_ELEMENT = "component-scan";
 
     private static final String ID_ATTRIBUTE = "id";
 
@@ -44,6 +48,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     private static final String INIT_METHOD_ATTRIBUTE = "init-method";
 
     private static final String DESTROY_METHOD_ATTRIBUTE = "destroy-method";
+
+    private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
 
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
         super(registry);
@@ -78,6 +84,16 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         SAXReader reader = new SAXReader();
         Document document = reader.read(inputStream);
         Element root = document.getRootElement();
+
+        Element componentScan = root.element(COMPONENT_SCAN_ELEMENT);
+        if (Objects.nonNull(componentScan)) {
+            String basePackage = componentScan.attributeValue(BASE_PACKAGE_ATTRIBUTE);
+            if (StrUtil.isEmpty(basePackage)) {
+                throw new BeansException("The value of base-package attribute can not be empty or null");
+            }
+            scanPackage(basePackage);
+        }
+
         List<Element> beans = root.elements(BEAN_ELEMENT);
         for (Element bean : beans) {
             // 解析 bean 标签
@@ -136,5 +152,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             // 注册 bean
             this.getRegistry().registerBeanDefinition(beanName, beanDefinition);
         }
+    }
+
+    private void scanPackage(String scanPath) {
+        String[] basePackages = StrUtil.split(scanPath, ",");
+        ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(getRegistry());
+        scanner.doScan(basePackages);
     }
 }

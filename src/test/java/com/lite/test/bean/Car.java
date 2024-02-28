@@ -1,8 +1,11 @@
 package com.lite.test.bean;
 
+import com.lite.stereotype.Component;
+
 /**
  * @author vince 2024/2/4 17:31
  */
+@Component
 public class Car {
 
     private String brand;
