@@ -1,6 +1,7 @@
 package com.lite.context.annotation;
 
 import cn.hutool.core.util.StrUtil;
+import com.lite.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import com.lite.beans.factory.config.BeanDefinition;
 import com.lite.beans.factory.support.BeanDefinitionRegistry;
 import com.lite.stereotype.Component;
@@ -15,6 +16,8 @@ import java.util.Set;
 public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateComponentProvider {
 
     private BeanDefinitionRegistry registry;
+
+    private static final String AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME = "com.lite.context.annotation.internalAutowiredAnnotationProcessor";
 
     public ClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry) {
         this.registry = registry;
@@ -36,6 +39,9 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
                 registry.registerBeanDefinition(beanName, candidate);
             }
         }
+
+        // 注册处理@Autowired 和@Value 注解的 BeanPostProcessor
+        registry.registerBeanDefinition(AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME, new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class));
     }
 
     private String determineBeanName(BeanDefinition beanDefinition) {

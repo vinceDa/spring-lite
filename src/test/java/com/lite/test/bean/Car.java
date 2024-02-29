@@ -1,5 +1,6 @@
 package com.lite.test.bean;
 
+import com.lite.beans.factory.annotation.Value;
 import com.lite.stereotype.Component;
 
 /**
@@ -8,6 +9,7 @@ import com.lite.stereotype.Component;
 @Component
 public class Car {
 
+    @Value("${brand}")
     private String brand;
 
     private String color;

@@ -6,6 +6,7 @@ import com.lite.aop.framework.ProxyFactory;
 import com.lite.beans.BeansException;
 import com.lite.beans.factory.BeanFactory;
 import com.lite.beans.factory.BeanFactoryAware;
+import com.lite.beans.factory.PropertyValues;
 import com.lite.beans.factory.config.BeanDefinition;
 import com.lite.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import com.lite.beans.factory.support.DefaultListableBeanFactory;
@@ -54,6 +55,11 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
         }
 
         return null;
+    }
+
+    @Override
+    public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeansException {
+        return pvs;
     }
 
     private boolean isInfrastructureClass(Class<?> beanClass) {
