@@ -6,7 +6,6 @@ import com.lite.beans.factory.config.BeanDefinition;
 import com.lite.beans.factory.support.BeanDefinitionRegistry;
 import com.lite.stereotype.Component;
 
-import java.lang.annotation.Annotation;
 import java.util.Objects;
 import java.util.Set;
 

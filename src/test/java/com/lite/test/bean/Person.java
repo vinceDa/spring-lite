@@ -3,10 +3,13 @@ package com.lite.test.bean;
 import com.lite.beans.BeansException;
 import com.lite.beans.factory.DisposableBean;
 import com.lite.beans.factory.InitializingBean;
+import com.lite.beans.factory.annotation.Autowired;
+import com.lite.stereotype.Component;
 
 /**
  * @author vince 2024/1/26 17:51
  */
+@Component
 public class Person implements InitializingBean, DisposableBean {
 
     private String name;
@@ -15,6 +18,7 @@ public class Person implements InitializingBean, DisposableBean {
 
     private String sex;
 
+    @Autowired
     private Car car;
 
     public String getName() {

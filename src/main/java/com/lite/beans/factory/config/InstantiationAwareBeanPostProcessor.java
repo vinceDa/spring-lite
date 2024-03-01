@@ -1,7 +1,6 @@
 package com.lite.beans.factory.config;
 
 import com.lite.beans.BeansException;
-import com.lite.beans.factory.PropertyValue;
 import com.lite.beans.factory.PropertyValues;
 
 /**
