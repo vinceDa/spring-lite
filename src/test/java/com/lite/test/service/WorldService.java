@@ -7,4 +7,6 @@ package com.lite.test.service;
 public interface WorldService {
 
 	void explode();
+
+	String getName();
 }

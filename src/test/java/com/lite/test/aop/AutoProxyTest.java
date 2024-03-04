@@ -18,4 +18,13 @@ public class AutoProxyTest {
         worldService.explode();
     }
 
+    @Test
+    public void testPopulateProxyBeanWithPropertyValues() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:populate-proxy-bean-with-property-values.xml");
+        WorldService worldService = applicationContext.getBean("worldService", WorldService.class);
+        worldService.explode();
+
+        assert "earth".equals(worldService.getName());
+    }
+
 }
