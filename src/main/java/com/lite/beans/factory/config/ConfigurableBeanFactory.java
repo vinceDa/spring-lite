@@ -1,6 +1,7 @@
 package com.lite.beans.factory.config;
 
 import com.lite.beans.factory.HierarchicalBeanFactory;
+import com.lite.core.convert.ConversionService;
 import com.lite.util.StringValueResolver;
 
 /**
@@ -18,5 +19,9 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
     void addEmbeddedValueResolver(StringValueResolver stringValueResolver);
 
     String resolveEmbeddedValue(String value);
+
+    void setConversionService(ConversionService conversionService);
+
+    ConversionService getConversionService();
 
 }

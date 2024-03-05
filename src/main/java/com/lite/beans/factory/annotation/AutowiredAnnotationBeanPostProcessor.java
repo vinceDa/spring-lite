@@ -1,9 +1,11 @@
 package com.lite.beans.factory.annotation;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.TypeUtil;
 import com.lite.beans.BeansException;
 import com.lite.beans.factory.*;
 import com.lite.beans.factory.config.InstantiationAwareBeanPostProcessor;
+import com.lite.core.convert.ConversionService;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
@@ -30,6 +32,17 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
             if (Objects.nonNull(valueAnnotation)) {
                 String value = valueAnnotation.value();
                 value = beanFactory.resolveEmbeddedValue(value);
+
+                // 类型转换
+                Class<?> sourceType = value.getClass();
+                Class<?> targetType = (Class<?>) TypeUtil.getType(field);
+                ConversionService conversionService = beanFactory.getConversionService();
+                if (Objects.nonNull(conversionService)) {
+                    if (conversionService.canConvert(sourceType, targetType)) {
+                        value = conversionService.convert(value, targetType);
+                    }
+                }
+
                 BeanUtil.setFieldValue(bean, field.getName(), value);
             }
 

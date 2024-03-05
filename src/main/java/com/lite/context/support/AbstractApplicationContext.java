@@ -11,6 +11,7 @@ import com.lite.context.event.ApplicationEventMulticaster;
 import com.lite.context.event.ContextCloseEvent;
 import com.lite.context.event.ContextRefreshEvent;
 import com.lite.context.event.SimpleApplicationEventMulticaster;
+import com.lite.core.convert.ConversionService;
 import com.lite.core.io.DefaultResourceLoader;
 
 import java.util.Collection;
@@ -22,6 +23,8 @@ import java.util.Map;
 public abstract class AbstractApplicationContext extends DefaultResourceLoader implements ConfigurableApplicationContext {
 
     public static final String APPLICATION_EVENT_MULTICASTER_BEAN_NAME = "applicationEventMulticaster";
+
+    private static final String CONVERSION_SERVICE_BEAN_NAME = "conversionService";
 
     private ApplicationEventMulticaster applicationEventMulticaster;
 
@@ -46,11 +49,24 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         // 注册事件监听器
         registerApplicationListener();
 
-        // 提前实例化单例 bean
-        beanFactory.preInstantiateSingletons();
+        // 注册类型转换器和提前实例化单例 bean
+        finishBeanFactoryInitialization(beanFactory);
 
         // 发布容器刷新完成事件
         finishRefresh();
+    }
+
+    private void finishBeanFactoryInitialization(ConfigurableListableBeanFactory beanFactory) {
+        // 设置类型转换器
+        if (beanFactory.containsBean(CONVERSION_SERVICE_BEAN_NAME)) {
+            Object conversionService = beanFactory.getBean(CONVERSION_SERVICE_BEAN_NAME);
+            if (conversionService instanceof ConversionService) {
+                beanFactory.setConversionService((ConversionService) conversionService);
+            }
+        }
+
+        // 提前实例化单例 bean
+        beanFactory.preInstantiateSingletons();
     }
 
     /**

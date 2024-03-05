@@ -5,6 +5,7 @@ import com.lite.beans.factory.FactoryBean;
 import com.lite.beans.factory.config.BeanDefinition;
 import com.lite.beans.factory.config.BeanPostProcessor;
 import com.lite.beans.factory.config.ConfigurableBeanFactory;
+import com.lite.core.convert.ConversionService;
 import com.lite.util.StringValueResolver;
 
 import java.util.*;
@@ -19,6 +20,8 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     private final Map<String, Object> factoryBeanObjectCache = new HashMap<>();
 
     private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<>();
+
+    private ConversionService conversionService;
 
     @Override
     public Object getBean(String beanName) throws BeansException {
@@ -59,6 +62,13 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     }
 
     @Override
+    public boolean containsBean(String name) {
+        return containsBeanDefinition(name);
+    }
+
+    protected abstract boolean containsBeanDefinition(String beanName);
+
+    @Override
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
         // 有则覆盖
         beanPostProcessors.remove(beanPostProcessor);
@@ -85,5 +95,15 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
             result = embeddedValueResolver.resolveStringValue(result);
         }
         return result;
+    }
+
+    @Override
+    public void setConversionService(ConversionService conversionService) {
+        this.conversionService = conversionService;
+    }
+
+    @Override
+    public ConversionService getConversionService() {
+        return conversionService;
     }
 }

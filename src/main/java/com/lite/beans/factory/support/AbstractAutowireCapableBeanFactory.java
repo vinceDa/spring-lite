@@ -3,11 +3,15 @@ package com.lite.beans.factory.support;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.TypeUtil;
 import com.lite.beans.BeansException;
 import com.lite.beans.factory.*;
 import com.lite.beans.factory.config.*;
+import com.lite.core.convert.ConversionService;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.Objects;
 
 /**
  * @author vince 2024/1/22 14:30
@@ -158,6 +162,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                 if (value instanceof BeanReference beanReference) {
                     // beanA依赖beanB，先实例化beanB
                     value = getBean(beanReference.getBeanName());
+                } else {
+                    // 类型转换
+                    Class<?> sourceType = value.getClass();
+                    Class<?> targetType = (Class<?>) TypeUtil.getFieldType(bean.getClass(), name);
+                    ConversionService conversionService = getConversionService();
+                    if (Objects.nonNull(conversionService)) {
+                        if (conversionService.canConvert(sourceType, targetType)) {
+                            value = conversionService.convert(value, targetType);
+                        }
+                    }
                 }
 
                 //通过反射设置属性
