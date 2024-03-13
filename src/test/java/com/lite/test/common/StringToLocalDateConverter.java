@@ -12,8 +12,8 @@ public class StringToLocalDateConverter implements Converter<String, LocalDate> 
 
     private final DateTimeFormatter DATE_TIME_FORMATTER;
 
-    public StringToLocalDateConverter(DateTimeFormatter DATE_TIME_FORMATTER) {
-        this.DATE_TIME_FORMATTER = DATE_TIME_FORMATTER;
+    public StringToLocalDateConverter(String pattern) {
+        this.DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(pattern);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.lite.core.convert.support;
 
+import cn.hutool.core.convert.BasicType;
 import com.lite.core.convert.ConversionService;
 import com.lite.core.convert.converter.Converter;
 import com.lite.core.convert.converter.ConverterFactory;
@@ -27,6 +28,7 @@ public class GenericConverterService implements ConversionService, ConverterRegi
     @Override
     public <T> T convert(Object source, Class<T> targetType) {
         Class<?> sourceType = source.getClass();
+        targetType = (Class<T>) BasicType.wrap(targetType);
         GenericConverter converter = getConverter(sourceType, targetType);
         return (T) converter.convert(source, sourceType, targetType);
     }

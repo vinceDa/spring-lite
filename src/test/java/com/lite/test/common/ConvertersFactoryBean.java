@@ -13,7 +13,8 @@ public class ConvertersFactoryBean implements FactoryBean<Set<?>> {
     @Override
     public Set<?> getObject() throws Exception {
         HashSet<Object> converters = new HashSet<>();
-        converters.add(new StringToLocalDateConverter(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        StringToLocalDateConverter stringToLocalDateConverter = new StringToLocalDateConverter("yyyy-MM-dd");
+        converters.add(stringToLocalDateConverter);
         return converters;
     }
 

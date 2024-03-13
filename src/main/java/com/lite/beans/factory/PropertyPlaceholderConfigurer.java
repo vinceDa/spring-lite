@@ -45,7 +45,8 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
         PropertyValues propertyValues = beanDefinition.getPropertyValues();
         for (PropertyValue propertyValue : propertyValues.getPropertyValues()) {
             Object value = propertyValue.getValue();
-            if (value instanceof String strVal) {
+            if (value instanceof String) {
+                String strVal = (String) value;
                 // 仅简单支持一个占位符的格式
                 StringBuilder sb = new StringBuilder(strVal);
                 int startIndex = strVal.indexOf(PLACEHOLDER_PREFIX);

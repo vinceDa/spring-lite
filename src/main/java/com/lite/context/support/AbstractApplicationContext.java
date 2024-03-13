@@ -115,6 +115,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         applicationEventMulticaster.multicastEvent(event);
     }
 
+    @Override
+    public boolean containsBean(String name) {
+        return this.getBeanFactory().containsBean(name);
+    }
+
     protected abstract void refreshBeanFactory() throws BeansException;
 
     @Override

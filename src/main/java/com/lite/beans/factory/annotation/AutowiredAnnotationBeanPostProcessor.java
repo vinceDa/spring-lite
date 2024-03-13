@@ -30,8 +30,8 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
         for (Field field : fields) {
             Value valueAnnotation = field.getAnnotation(Value.class);
             if (Objects.nonNull(valueAnnotation)) {
-                String value = valueAnnotation.value();
-                value = beanFactory.resolveEmbeddedValue(value);
+                Object value = valueAnnotation.value();
+                value = beanFactory.resolveEmbeddedValue((String) value);
 
                 // 类型转换
                 Class<?> sourceType = value.getClass();
