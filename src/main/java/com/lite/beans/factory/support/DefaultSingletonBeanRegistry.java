@@ -6,6 +6,7 @@ import com.lite.beans.factory.config.SingletonBeanRegistry;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -15,11 +16,17 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     private final Map<String, Object> singletonBeanMap = new HashMap<>();
 
+    protected final Map<String, Object> earlySingletonBeanMap = new HashMap<>();
+
     private final Map<String, DisposableBean> disposableBeanMap = new HashMap<>();
 
     @Override
     public Object getSingletonBean(String beanName) throws BeansException {
-        return singletonBeanMap.get(beanName);
+        Object bean = singletonBeanMap.get(beanName);
+        if (Objects.isNull(bean)) {
+            bean = earlySingletonBeanMap.get(beanName);
+        }
+        return bean;
     }
 
     @Override
