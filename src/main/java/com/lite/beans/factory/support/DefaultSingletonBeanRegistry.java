@@ -2,6 +2,7 @@ package com.lite.beans.factory.support;
 
 import com.lite.beans.BeansException;
 import com.lite.beans.factory.DisposableBean;
+import com.lite.beans.factory.ObjectFactory;
 import com.lite.beans.factory.config.SingletonBeanRegistry;
 
 import java.util.HashMap;
@@ -16,7 +17,9 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     private final Map<String, Object> singletonBeanMap = new HashMap<>();
 
-    protected final Map<String, Object> earlySingletonBeanMap = new HashMap<>();
+    private final Map<String, Object> earlySingletonBeanMap = new HashMap<>();
+
+    private final Map<String, ObjectFactory<?>> singletonFactoryBeanMap = new HashMap<>();
 
     private final Map<String, DisposableBean> disposableBeanMap = new HashMap<>();
 
@@ -25,6 +28,15 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         Object bean = singletonBeanMap.get(beanName);
         if (Objects.isNull(bean)) {
             bean = earlySingletonBeanMap.get(beanName);
+            if (Objects.isNull(bean)) {
+                ObjectFactory<?> objectFactory = singletonFactoryBeanMap.get(beanName);
+                if (Objects.nonNull(objectFactory)) {
+                    bean = objectFactory.getObject();
+                    earlySingletonBeanMap.put(beanName, bean);
+                    singletonFactoryBeanMap.remove(beanName);
+                }
+
+            }
         }
         return bean;
     }
@@ -32,6 +44,12 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     @Override
     public void addSingleton(String beanName, Object singletonObject) {
         singletonBeanMap.put(beanName, singletonObject);
+        earlySingletonBeanMap.remove(beanName);
+        singletonFactoryBeanMap.remove(beanName);
+    }
+
+    protected void addSingletonFactory(String beanName, ObjectFactory<?> singleFactory) {
+        singletonFactoryBeanMap.put(beanName, singleFactory);
     }
 
     public void registerDisposableBean(String beanName, DisposableBean bean) {
